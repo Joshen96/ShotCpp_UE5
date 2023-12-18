@@ -50,6 +50,11 @@ public:
 	TSubclassOf<class ABullet> bulletFactory;
 
 
+	UPROPERTY(EditAnywhere)
+	class USoundBase* fireSound;
+
+
+
 private:
 	float h;
 	float v;

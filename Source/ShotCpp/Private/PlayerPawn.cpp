@@ -5,6 +5,7 @@
 #include <Components/BoxComponent.h>
 #include "Components/ArrowComponent.h"
 #include "Bullet.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -81,7 +82,8 @@ void APlayerPawn::Fire()
 {
 	//불릿 생성 할건데 월드에 스폰할 액터는 총알이고, 위치는 플레이의 파이어 포시션의 위치와 방향이다
 	ABullet* bullet = GetWorld()->SpawnActor<ABullet>(bulletFactory, firePosition->GetComponentLocation(), firePosition->GetComponentRotation());
-
-	UE_LOG(LogTemp, Warning, TEXT("hihi shot"));
+	//총알 사운드 추가
+	UGameplayStatics::PlaySound2D(GetWorld(), fireSound);
+	
 }
 
