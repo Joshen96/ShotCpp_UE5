@@ -21,6 +21,8 @@ AEnemyActor::AEnemyActor()
 
 	meshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Static Mesh"));
 	meshComp->SetupAttachment(boxComp);
+
+	boxComp->SetCollisionProfileName(TEXT("Enemy"));
 }
 
 // Called when the game starts or when spawned
@@ -46,6 +48,9 @@ void AEnemyActor::BeginPlay()
 	{
 		dir = GetActorForwardVector();
 	}
+	//박스콜라이더의 BeginOverlap 델리게이트로 AEnemyActor::OnEnemyOverlap기능을 탑재해줌
+	boxComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemyActor::OnEnemyOverlap);
+
 }
 
 // Called every frame
@@ -57,5 +62,22 @@ void AEnemyActor::Tick(float DeltaTime)
 
 	SetActorLocation(newLocation);
 
+}
+
+void AEnemyActor::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	//플레이어를 만나면 터지게만드는 함수
+
+	APlayerPawn* Player = Cast<APlayerPawn>(OtherActor);
+	
+
+	if (Player != nullptr)
+	{
+		Player->EnemyHit(Damage);
+
+
+
+	}
+	Destroy();
 }
 

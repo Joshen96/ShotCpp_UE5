@@ -28,6 +28,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+
+
 	//박스콜라이더
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* boxComp;
@@ -35,10 +37,13 @@ public:
 	// 매쉬 
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* meshComp;
-
+	//움직임 속도
 	UPROPERTY(EditAnywhere)
 	float moveSpeed = 500;
-
+	//체력
+	
+	UPROPERTY(EditAnywhere)
+	bool die = false;
 
 	//총구위치
 	UPROPERTY(EditAnywhere)
@@ -50,10 +55,19 @@ public:
 	TSubclassOf<class ABullet> bulletFactory;
 
 
+	
+	
+
+
+
 	UPROPERTY(EditAnywhere)
 	class USoundBase* fireSound;
 
+	void EnemyHit(int32 Damage);
 
+	void Die();
+
+	
 
 private:
 	float h;
@@ -62,8 +76,11 @@ private:
 	void MoveHorizontal(float _value);
 	void MoveVertical(float _value);
 
+	UPROPERTY(EditAnywhere)
+	int32 Life = 0;
 	
 	void Fire();
 
+	
 
 };

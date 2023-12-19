@@ -4,16 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Bullet.generated.h"
+#include "KillZone.generated.h"
 
 UCLASS()
-class SHOTCPP_API ABullet : public AActor
+class SHOTCPP_API AKillZone : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ABullet();
+	AKillZone();
 
 protected:
 	// Called when the game starts or when spawned
@@ -26,17 +26,4 @@ public:
 	UPROPERTY(EditAnywhere)
 	class UBoxComponent* boxComp;
 
-	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* meshComp;
-
-	UPROPERTY(EditAnywhere)
-	float moveSpeed = 800.0f;
-
-	//ÆÄÆ¼Å¬
-	UPROPERTY(EditAnywhere)
-	class UParticleSystem* explosionFX;
-	
-
-	UFUNCTION()
-	void OnBulletOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 };

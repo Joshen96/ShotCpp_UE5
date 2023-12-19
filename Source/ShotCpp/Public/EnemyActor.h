@@ -36,6 +36,12 @@ public:
 	UPROPERTY(EditAnywhere)
 	float moveSpeed = 800;
 
+	UPROPERTY(EditAnywhere)
+	int32 Damage =1;
+
+	UFUNCTION()//없으면 빌드 실패하여 사용불가
+	void OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 private:
 	FVector dir;
 

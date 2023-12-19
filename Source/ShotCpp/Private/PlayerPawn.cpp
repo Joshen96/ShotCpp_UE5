@@ -6,6 +6,7 @@
 #include "Components/ArrowComponent.h"
 #include "Bullet.h"
 #include "Kismet/GameplayStatics.h"
+#include "ShootingGameBase.h"
 
 // Sets default values
 APlayerPawn::APlayerPawn()
@@ -29,13 +30,27 @@ APlayerPawn::APlayerPawn()
 	//총알 방향 포지션
 	firePosition = CreateDefaultSubobject<UArrowComponent>(TEXT("Fire Position"));
 	firePosition->SetupAttachment(boxComp);
+
+
+	boxComp->SetGenerateOverlapEvents(true);
+	boxComp->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+	boxComp->SetCollisionObjectType(ECC_EngineTraceChannel1);
+
+	boxComp->SetCollisionResponseToAllChannels(ECR_Ignore);
+
+	boxComp->SetCollisionResponseToChannel(ECC_EngineTraceChannel2, ECR_Overlap);
+
+	boxComp->SetCollisionResponseToChannel(ECC_WorldStatic, ECR_Block);
+
 }
 
 // Called when the game starts or when spawned
 void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
 	
+
 	
 }
 
@@ -43,15 +58,24 @@ void APlayerPawn::BeginPlay()
 void APlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
 
-	//입력값을 활용하여 방향을 정해주고
-	FVector dir = FVector(0, h, v);
-	// 정규화를 통해 대각선 이동 계산
-	dir.Normalize();
-	//새이동값 받기 = 현재위치 + 방향+ 속도*시간;
-	FVector NewLocation = GetActorLocation() + dir * moveSpeed * DeltaTime;
-	//그곳으로 현재 위치 세팅 프레임단위로
-	SetActorLocation(NewLocation);
+	if (!die) 
+	{
+		//입력값을 활용하여 방향을 정해주고
+		FVector dir = FVector(0, h, v);
+		// 정규화를 통해 대각선 이동 계산
+		dir.Normalize();
+		//새이동값 받기 = 현재위치 + 방향+ 속도*시간;
+		FVector NewLocation = GetActorLocation() + dir * moveSpeed * DeltaTime;
+		//그곳으로 현재 위치 세팅 프레임단위로
+		SetActorLocation(NewLocation, true);
+	}
+	else
+	{
+		Die();
+	}
+
 
 }
 
@@ -86,4 +110,38 @@ void APlayerPawn::Fire()
 	UGameplayStatics::PlaySound2D(GetWorld(), fireSound);
 	
 }
+
+void APlayerPawn::EnemyHit(int32 Damage)
+{
+	AGameModeBase* currentMode = GetWorld()->GetAuthGameMode();
+
+
+
+	AShootingGameBase* currentGameMode = Cast<AShootingGameBase>(currentMode);
+
+	if (currentGameMode->currentLife >= 0)
+	{
+		currentGameMode->currentLife -= Damage;
+	}
+	else
+	{
+		currentGameMode->currentLife = 0;
+	}
+	if (currentGameMode->currentLife == 0)
+	{
+		die = true;
+	}
+	currentGameMode->PrintLife();
+
+	
+	
+}
+
+void APlayerPawn::Die()
+{
+	Destroy();
+}
+
+
+
 
