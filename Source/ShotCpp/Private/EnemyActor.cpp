@@ -75,8 +75,6 @@ void AEnemyActor::OnEnemyOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	{
 		Player->EnemyHit(Damage);
 
-
-
 	}
 	Destroy();
 }

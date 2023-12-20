@@ -24,4 +24,6 @@ public:
 
 	UPROPERTY(EditAnywhere, meta = (BindWidget))
 	class UTextBlock* playerlife;
+
+
 };

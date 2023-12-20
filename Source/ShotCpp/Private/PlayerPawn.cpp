@@ -49,9 +49,7 @@ void APlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
 
-	
 }
 
 // Called every frame
@@ -129,7 +127,9 @@ void APlayerPawn::EnemyHit(int32 Damage)
 	}
 	if (currentGameMode->currentLife == 0)
 	{
+		currentGameMode->ShowMenu();
 		die = true;
+		
 	}
 	currentGameMode->PrintLife();
 

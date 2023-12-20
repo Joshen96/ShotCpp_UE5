@@ -4,6 +4,7 @@
 #include "ShootingGameBase.h"
 #include "Blueprint/UserWidget.h"
 #include "MainWidget.h"
+#include "MenuWidget.h"
 #include "Components/TextBlock.h" // UTextBlock 헤더 오류로 추가함
 
 
@@ -20,6 +21,7 @@ void AShootingGameBase::BeginPlay()
 		if (mainUI != nullptr)
 		{
 			mainUI->AddToViewport();
+			
 		}
 	}
 }
@@ -38,6 +40,21 @@ void AShootingGameBase::PrintScore()
 	{
 		
 		mainUI->scoreData->SetText(FText::AsNumber(currentScore)); //헤더오류 
+	}
+}
+
+void AShootingGameBase::ShowMenu()
+{
+	if (MenuWidget != nullptr)
+	{
+		//할당만 해준것
+		menuUI = CreateWidget<UMenuWidget>(GetWorld(), MenuWidget);
+		
+		if (menuUI != nullptr)
+		{
+			//화면에 출력하기
+			menuUI->AddToViewport();
+		}
 	}
 }
 

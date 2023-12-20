@@ -17,10 +17,16 @@ class SHOTCPP_API AShootingGameBase : public AGameModeBase
 	
 public:
 	void AddScore(int32 point);
+	
+	//받아올 위젯클래스
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UMainWidget> MainWidget;
-	//받아올 위젯클래스
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UMenuWidget> MenuWidget;
+
+	void ShowMenu();
 
 	int32 currentLife = 10;
 	
@@ -36,6 +42,8 @@ private:
 	
 	
 	class UMainWidget* mainUI;
+
+	class UMenuWidget* menuUI;
 
 	void PrintScore();
 	
